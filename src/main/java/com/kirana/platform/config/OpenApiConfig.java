@@ -17,6 +17,9 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         final String securitySchemeName = "bearerAuth";
+        Server server = new Server();
+        server.setUrl("https://kirana-platform-production.up.railway.app");
+        server.setDescription("Production Server");
         return new OpenAPI()
         		.servers(List.of(new Server().url("https://kirana-platform-production.up.railway.app").description("Production Server")))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
