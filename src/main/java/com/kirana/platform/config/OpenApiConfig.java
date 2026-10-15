@@ -21,7 +21,7 @@ public class OpenApiConfig {
         server.setUrl("https://kirana-platform-production.up.railway.app");
         server.setDescription("Production Server");
         return new OpenAPI()
-        		.servers(List.of(new Server().url("https://kirana-platform-production.up.railway.app").description("Production Server")))
+        		.servers(List.of(server))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new Components()
                         .addSecuritySchemes(securitySchemeName,
