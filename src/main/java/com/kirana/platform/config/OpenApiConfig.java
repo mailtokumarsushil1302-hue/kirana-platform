@@ -2,6 +2,7 @@ package com.kirana.platform.config;
 
 import java.util.List;
 
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,6 +21,7 @@ public class OpenApiConfig {
         Server server = new Server();
         server.setUrl("https://kirana-platform-production.up.railway.app");
         server.setDescription("Production Server");
+        
         return new OpenAPI()
         		.servers(List.of(server))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
@@ -30,5 +32,17 @@ public class OpenApiConfig {
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT")));
+    }
+    @Bean
+    public OpenApiCustomizer openApiCustomizer() {
+        return openApi -> {
+            if (openApi.getServers() != null) {
+                openApi.getServers().forEach(s -> {
+                    if (s.getUrl() != null && s.getUrl().startsWith("http://")) {
+                        s.setUrl(s.getUrl().replace("http://", "https://"));
+                    }
+                });
+            }
+        };
     }
 }
